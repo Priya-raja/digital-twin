@@ -9,7 +9,7 @@ export default function Home() {
             My Digital Twin 
           </h1>
           <p className="text-center text-gray-600 mb-8">
-          My journey AI/ML engineering. Building autonomous agents, RAG systems, and AI-powered applications while documenting my growth.
+          Building autonomous agents, RAG systems, and AI-powered applications while documenting my growth
           
           </p>
 
