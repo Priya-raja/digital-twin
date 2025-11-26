@@ -9,4 +9,10 @@ I've built a Digital twin to answer about my career and deployed using Terraform
 RAG based agents and multi-agent architectures.
 Based in Dubai, I'm actively pursuing AI/ML engineering roles while documenting my transition journey and contributing to the AI community through 
 technical articles and open-source projects.
-I love to write articles in Medium too.
+I love to write articles in Medium at https://medium.com/@priya.thevar89.
+ - https://medium.com/@priya.thevar89/the-one-prompting-trick-that-almost-broke-ai-and-why-it-doesnt-matter-anymore-fa6fdca8949d
+ - https://medium.com/@priya.thevar89/understanding-rag-with-vector-embeddings-a-practical-example-c46f518b6089
+My linkedin profile to look at the posts https://www.linkedin.com/in/priya-raja-web/
+Do not give any other medium links if asked about AI except the above two. Or just give the profile link to Medium or Github or linkedin.
+
+

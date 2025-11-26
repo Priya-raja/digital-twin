@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Sparkles, User, MessageCircle, ArrowRight } from 'lucide-react';
+import { Send, Bot, User, Sparkles } from 'lucide-react';
 
 interface Message {
     id: string;
@@ -16,6 +16,7 @@ export default function Twin() {
     const [isLoading, setIsLoading] = useState(false);
     const [sessionId, setSessionId] = useState<string>('');
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -46,7 +47,7 @@ export default function Twin() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    message: input,
+                    message: userMessage.content,
                     session_id: sessionId || undefined,
                 }),
             });
@@ -78,6 +79,10 @@ export default function Twin() {
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
+            // Refocus the input after message is sent
+            setTimeout(() => {
+                inputRef.current?.focus();
+            }, 100);
         }
     };
 
@@ -88,108 +93,93 @@ export default function Twin() {
         }
     };
 
-    const suggestedQuestions = [
-        "What's your experience with AI/ML?",
-        "What technologies do you specialize in?",
-    ];
+    // Check if avatar exists
+    const [hasAvatar, setHasAvatar] = useState(false);
+    useEffect(() => {
+        // Check if avatar.png exists
+        fetch('/avatar.png', { method: 'HEAD' })
+            .then(res => setHasAvatar(res.ok))
+            .catch(() => setHasAvatar(false));
+    }, []);
 
     return (
-        <div className="flex flex-col h-full bg-gradient-to-br from-white via-blue-50 to-indigo-50 rounded-3xl shadow-2xl overflow-hidden border border-indigo-100/50">
+        <div className="flex flex-col h-full bg-gradient-to-b from-slate-950 via-purple-950 to-slate-950 rounded-lg shadow-2xl border-2 border-purple-500">
             {/* Header */}
-            <div className="bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 text-white p-8 border-b border-indigo-400/30 relative overflow-hidden">
-                {/* Decorative background elements */}
-                <div className="absolute inset-0 opacity-10">
-                    <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/4" />
-                </div>
-
-                <div className="relative z-10 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-md border border-white/20 shadow-lg">
-                            <Sparkles className="w-7 h-7" />
-                        </div>
-                        <div>
-                            <h2 className="text-3xl font-bold bg-gradient-to-r from-white to-indigo-100 bg-clip-text text-transparent">
-                                My Digital Career Twin
-                            </h2>
-                            <p className="text-sm text-indigo-100 mt-1 font-medium">Powered by AWS Bedrock • RAG-Enhanced</p>
-                        </div>
-                    </div>
-                    <MessageCircle className="w-6 h-6 text-indigo-200 opacity-60 hidden sm:block" />
-                </div>
+            <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white p-6 rounded-t-lg border-b-4 border-yellow-400 shadow-xl">
+                <h2 className="text-2xl font-bold flex items-center gap-2 drop-shadow-lg animate-pulse">
+                    <Bot className="w-7 h-7" />
+                    <span className="bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent">
+                        Priya's Digital Twin
+                    </span>
+                </h2>
+                <p className="text-sm text-purple-100 mt-2 font-medium">✨ Your AI companion</p>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-8 space-y-6">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-slate-900 to-purple-900">
                 {messages.length === 0 && (
-                    <div className="flex flex-col items-center justify-center h-full text-center py-12">
-                        <div className="mb-8 animate-bounce" style={{ animationDuration: '3s' }}>
-                            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-indigo-100 via-blue-100 to-cyan-100 shadow-xl">
-                                <Sparkles className="w-10 h-10 text-indigo-600" />
+                    <div className="text-center mt-12">
+                        {hasAvatar ? (
+                            <img 
+                                src="/avatar.png" 
+                                alt="Digital Twin Avatar" 
+                                className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-purple-400 shadow-lg shadow-purple-500/50 animate-pulse"
+                            />
+                        ) : (
+                            <div className="w-24 h-24 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center border-4 border-yellow-400 shadow-lg shadow-purple-500/50">
+                                <Bot className="w-12 h-12 text-white" />
                             </div>
-                        </div>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-3">Career Twin - Get to Know Priya</h3>
-                        <p className="text-gray-600 max-w-md mb-8 leading-relaxed">
-                            Ask me anything about Priya's experience, skills, projects, or career journey. I have all her details and can answer your questions instantly.
+                        )}
+                        <p className="text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+                            Hello! Get to know Priya
                         </p>
-
-                        {/* Suggested Questions */}
-                        <div className="w-full max-w-2xl space-y-3">
-                            <p className="text-sm text-gray-500 font-semibold uppercase tracking-wider">Suggested Questions</p>
-                            {suggestedQuestions.map((question, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => {
-                                        setInput(question);
-                                    }}
-                                    className="w-full text-left p-4 rounded-2xl bg-white border-2 border-indigo-100 hover:border-indigo-400 hover:bg-indigo-50 transition-all duration-300 group cursor-pointer shadow-sm hover:shadow-md"
-                                >
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-gray-700 font-medium group-hover:text-indigo-600 transition-colors">{question}</span>
-                                        <ArrowRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-1 transition-transform opacity-0 group-hover:opacity-100" />
-                                    </div>
-                                </button>
-                            ))}
-                        </div>
+                        <p className="text-sm mt-3 text-purple-300 font-medium">💬 Ask me anything about my RAG, Agentic AI and AI Deployment!</p>
                     </div>
                 )}
 
                 {messages.map((message) => (
                     <div
                         key={message.id}
-                        className={`flex gap-4 animate-in fade-in slide-in-from-bottom-2 ${
+                        className={`flex gap-3 ${
                             message.role === 'user' ? 'justify-end' : 'justify-start'
                         }`}
                     >
                         {message.role === 'assistant' && (
-                            <div className="flex-shrink-0 mt-1">
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center shadow-lg border border-indigo-300">
-                                    <Sparkles className="w-5 h-5 text-white" />
-                                </div>
+                            <div className="flex-shrink-0">
+                                {hasAvatar ? (
+                                    <img 
+                                        src="/avatar.png" 
+                                        alt="Digital Twin Avatar" 
+                                        className="w-8 h-8 rounded-full border-2 border-purple-400 shadow-lg shadow-purple-400/50"
+                                    />
+                                ) : (
+                                    <div className="w-8 h-8 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center border-2 border-yellow-300">
+                                        <Bot className="w-5 h-5 text-white" />
+                                    </div>
+                                )}
                             </div>
                         )}
 
                         <div
-                            className={`max-w-[70%] rounded-3xl px-6 py-4 ${
+                            className={`max-w-[70%] rounded-lg p-4 shadow-lg ${
                                 message.role === 'user'
-                                    ? 'bg-gradient-to-br from-indigo-600 to-blue-600 text-white shadow-lg border border-indigo-500'
-                                    : 'bg-white text-gray-800 shadow-lg border border-indigo-100 backdrop-blur-sm'
+                                    ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-2 border-cyan-300 shadow-cyan-500/50'
+                                    : 'bg-gradient-to-r from-purple-600 to-pink-500 text-white border-2 border-purple-400 shadow-purple-500/50'
                             }`}
                         >
-                            <p className="text-sm leading-relaxed whitespace-pre-wrap font-medium">
-                                {message.content}
-                            </p>
+                            <p className="whitespace-pre-wrap font-medium">{message.content}</p>
                             <p
-                                className={`text-xs mt-3 font-semibold ${
-                                    message.role === 'user' ? 'text-indigo-100' : 'text-gray-400'
+                                className={`text-xs mt-2 ${
+                                    message.role === 'user' ? 'text-cyan-100' : 'text-purple-100'
                                 }`}
                             >
-                                {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                {message.timestamp.toLocaleTimeString()}
                             </p>
                         </div>
 
                         {message.role === 'user' && (
-                            <div className="flex-shrink-0 mt-1">
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center shadow-lg border border-gray-600">
+                            <div className="flex-shrink-0">
+                                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center border-2 border-cyan-300">
                                     <User className="w-5 h-5 text-white" />
                                 </div>
                             </div>
@@ -198,16 +188,26 @@ export default function Twin() {
                 ))}
 
                 {isLoading && (
-                    <div className="flex gap-4 justify-start">
-                        <div className="flex-shrink-0 mt-1">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center shadow-lg border border-indigo-300">
-                                <Sparkles className="w-5 h-5 text-white" />
-                            </div>
+                    <div className="flex gap-3 justify-start">
+                        <div className="flex-shrink-0">
+                            {hasAvatar ? (
+                                <img 
+                                    src="/avatar.png" 
+                                    alt="Digital Twin Avatar" 
+                                    className="w-8 h-8 rounded-full border-2 border-purple-400 shadow-lg shadow-purple-400/50"
+                                />
+                            ) : (
+                                <div className="w-8 h-8 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center border-2 border-yellow-300">
+                                    <Bot className="w-5 h-5 text-white" />
+                                </div>
+                            )}
                         </div>
-                        <div className="bg-white rounded-3xl p-5 shadow-lg border border-indigo-100 flex space-x-3">
-                            <div className="w-3 h-3 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
-                            <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }} />
-                            <div className="w-3 h-3 bg-cyan-500 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }} />
+                        <div className="bg-gradient-to-r from-purple-600 to-pink-500 rounded-lg p-3 border-2 border-purple-400 shadow-lg shadow-purple-500/50">
+                            <div className="flex space-x-2">
+                                <div className="w-2 h-2 bg-yellow-300 rounded-full animate-bounce" />
+                                <div className="w-2 h-2 bg-cyan-300 rounded-full animate-bounce delay-100" />
+                                <div className="w-2 h-2 bg-pink-300 rounded-full animate-bounce delay-200" />
+                            </div>
                         </div>
                     </div>
                 )}
@@ -216,26 +216,25 @@ export default function Twin() {
             </div>
 
             {/* Input */}
-            <div className="border-t border-indigo-200/50 p-6 bg-white/60 backdrop-blur-xl">
-                <div className="flex gap-3">
-                    <div className="relative flex-1">
-                        <input
-                            type="text"
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            onKeyDown={handleKeyPress}
-                            placeholder="Ask about Priya's experience, skills, or projects..."
-                            className="w-full px-6 py-4 border-2 border-indigo-200 rounded-2xl focus:outline-none focus:border-indigo-500 focus:ring-3 focus:ring-indigo-200/50 text-gray-800 font-medium placeholder-gray-500 transition-all shadow-sm focus:shadow-md"
-                            disabled={isLoading}
-                        />
-                    </div>
+            <div className="border-t-4 border-purple-500 p-4 bg-gradient-to-r from-slate-900 to-purple-900 rounded-b-lg">
+                <div className="flex gap-2">
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={handleKeyPress}
+                        placeholder="✨ Type your message..."
+                        className="flex-1 px-4 py-3 bg-slate-800 border-2 border-purple-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-white placeholder-purple-300 font-medium hover:border-pink-400 transition-colors shadow-lg"
+                        disabled={isLoading}
+                        autoFocus
+                    />
                     <button
                         onClick={sendMessage}
                         disabled={!input.trim() || isLoading}
-                        className="px-7 py-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-2xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
+                        className="px-4 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-lg hover:from-pink-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-pink-500/50 font-bold border-2 border-yellow-300"
                     >
-                        <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                        <span className="hidden sm:inline">Send</span>
+                        <Send className="w-5 h-5" />
                     </button>
                 </div>
             </div>
