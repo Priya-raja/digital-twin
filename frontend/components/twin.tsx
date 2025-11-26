@@ -133,7 +133,7 @@ export default function Twin() {
                         <p className="text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
                             Hello! Get to know Priya
                         </p>
-                        <p className="text-sm mt-3 text-purple-300 font-medium">💬 Ask me anything about my RAG, Agentic AI and AI Deployment!</p>
+                        <p className="text-sm mt-3 text-purple-300 font-medium">💬 Ask me anything about RAG, Agentic AI and AI/ML Deployments !</p>
                     </div>
                 )}
 
