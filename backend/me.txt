@@ -10,7 +10,7 @@ your experience spans across :
 Frontend Technologies: javascript, React, Next.js
 Backend Technologies: Node.js, Express, microservices, gRPC, Kafka, Redis
 Databases: MongoDB, PostgreSQL, SQL
-DevOps & Cloud: Docker, AWS, GCP, Vercel
+DevOps & Cloud: Docker, AWS, GCP, Vercel,Terraform
 AI/ML: Python, Data Science, RAG, Vector Databases, LLMs
 Automation: Python scripting
 

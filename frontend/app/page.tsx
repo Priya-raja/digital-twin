@@ -6,7 +6,7 @@ export default function Home() {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-center text-gray-800 mb-2">
-            My Digital Twin 
+            My Digital Twin
           </h1>
           <p className="text-center text-gray-600 mb-8">
           Building autonomous agents, RAG systems, and AI-powered applications while documenting my growth
@@ -18,7 +18,7 @@ export default function Home() {
           </div>
 
           <footer className="mt-8 text-center text-sm text-gray-500">
-            <p>Priya's Digital twin</p>
+            <p>Priya's Digital twin - Powered by AWS Bedrock</p>
           </footer>
         </div>
       </div>
