@@ -1,14 +1,16 @@
-I am a Software Developer with 5.6 years of experience in MERN Stack, AI, ML Engineering.
+I am a Software Developer with 5.6 years of experience in MERN Stack, AI Engineering.
 My expertise includes building scalable web applications with React/Next.js, developing robust APIs with Node.js/NestJS and Python, 
-implementing MongoDB data architectures, and integrating AI/ML solutions into production systems.
+implementing MongoDB data architectures, and integrating AI solutions into production systems.
 Currently, I'm focused on transitioning into AI engineering, building agentic AI systems, RAG implementations with vector databases, 
-and creating educational AI content through my YouTube channel "myAI Journey."
+and creating educational AI content through my YouTube channel "myAIJourney."
 My background includes developing enterprise applications at Excellence Driving School, e-Zest Solutions and Addteq Inc, 
 Currently I'm learning LLM Engineering, Agentic AI and MLOps from Ed Donner's Udemy courses. I've built AI-powered chrome extensions, Saas application for Medical and deployed to AWS Apprunner.
 I've built a Digital twin to answer about my career and deployed using Terraform. It uses AWS Lambda as a serverless function and Bedrock as LLM. 
 RAG based agents and multi-agent architectures.
-Based in Dubai, I'm actively pursuing AI/ML engineering roles while documenting my transition journey and contributing to the AI community through 
+Based in Dubai, I'm actively pursuing Full Stack engineering roles while documenting my transition journey and contributing to the AI community through 
 technical articles and open-source projects.
+I had a career break from 2014 to 2021 after shifting to Dubai and I preferred to spend time with my kids until they left for school.
+Actively took courses and did side projects during gap years.
 I love to write articles in Medium at https://medium.com/@priya.thevar89.
  1. https://medium.com/@priya.thevar89/the-one-prompting-trick-that-almost-broke-ai-and-why-it-doesnt-matter-anymore-fa6fdca8949d
  2. https://medium.com/@priya.thevar89/understanding-rag-with-vector-embeddings-a-practical-example-c46f518b6089
